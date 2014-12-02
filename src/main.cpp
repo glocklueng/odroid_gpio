@@ -1,10 +1,11 @@
 #include <iostream>
+#include <vector>
 #include "gpio.hpp"
 
 using namespace std;
 
 void print_main_menu() {
-	cout << "[1] Set Pin" << endl;
+	cout << "[1] Add Pin" << endl;
 	cout << "[2] Export" << endl;
 	cout << "[3] Unexport" << endl;
 	cout << "[4] Set Input" << endl;
@@ -28,7 +29,8 @@ int main(void) {
 	int option = 1;
 	int gpio_pin;
 	int ret_code;
-	GPIO *gpio = NULL;
+	vector <GPIO> gpio_tab;
+	vector <GPIO>::iterator it;
 
 	while(option != 0) {
 		print_main_menu();	
@@ -37,35 +39,49 @@ int main(void) {
 			case 1:
 				cout << "Enter GPIO pin: ";
 				gpio_pin = get_option();
-				gpio = new GPIO(gpio_pin);
+				gpio_tab.push_back(GPIO(gpio_pin));
 				break;
 			case 2:
-				if(gpio)
-					gpio->export_pin();
+				cout << "Enter pin index: ";
+				gpio_pin = get_option();
+				if(gpio_pin >=0 && gpio_pin < gpio_tab.size())
+					gpio_tab[gpio_pin].export_pin();
 				break;
 			case 3:
-				if(gpio)
-					gpio->unexport_pin();
+				cout << "Enter pin index: ";
+				gpio_pin = get_option();
+				if(gpio_pin >=0 && gpio_pin < gpio_tab.size())
+					gpio_tab[gpio_pin].unexport_pin();
 				break;
 			case 4:
-				if(gpio)
-					gpio->set_input();
+				cout << "Enter pin index: ";
+				gpio_pin = get_option();
+				if(gpio_pin >=0 && gpio_pin < gpio_tab.size())
+					gpio_tab[gpio_pin].set_input();
 				break;
 			case 5:
-				if(gpio)
-					gpio->set_output();
+				cout << "Enter pin index: ";
+				gpio_pin = get_option();
+				if(gpio_pin >=0 && gpio_pin < gpio_tab.size())
+					gpio_tab[gpio_pin].set_output();
 				break;
 			case 6:
-				if(gpio)
-					gpio->set_value(1);
+				cout << "Entetr pin index: ";
+				gpio_pin = get_option();
+				if(gpio_pin >=0 && gpio_pin < gpio_tab.size())
+					gpio_tab[gpio_pin].set_value(1);
 				break;
 			case 7:
-				if(gpio)
-					gpio->set_value(0);
-				break;
+				cout << "Entetr pin index: ";
+				gpio_pin = get_option();
+				if(gpio_pin >=0 && gpio_pin < gpio_tab.size())
+					gpio_tab[gpio_pin].set_value(0);
 			case 8:
-				if(gpio)
-					gpio->print();
+				it = gpio_tab.begin();
+				for(int i=0; it<gpio_tab.end(); i++,it++) {
+					cout<<"["<<i<<"] ";
+					it->print();
+				}
 				break;
 			default:
 				break;
