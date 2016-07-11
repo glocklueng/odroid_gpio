@@ -1,4 +1,4 @@
-raspberry_gpio
+odroid_gpio
 ==============
 
 GPIO managment application
